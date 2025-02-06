@@ -1,4 +1,4 @@
- import express from "express";
+import express from "express";
 import cors from "cors";
 import { connect } from "./config/db.js";
 import foodRoute from "./routes/foodroute.js";
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // connect db 
-connect;
+connect();
 
 // api endpt 
 app.use("/api/food",foodRoute)

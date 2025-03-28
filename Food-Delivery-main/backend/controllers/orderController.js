@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // placing user order for frontend
 const placeOrder = async (req, res) => {
-  const frontend_url = "https://food-delivery-frontend-s2l9.onrender.com";
+  const frontend_url = "http://localhost:5421";
   try {
     const newOrder = new orderModel({
       userId: req.body.userId,
@@ -19,7 +19,7 @@ const placeOrder = async (req, res) => {
 
     const line_items = req.body.items.map((item) => ({
       price_data: {
-        currency: "usd",
+        currency: "inr",
         product_data: {
           name: item.name,
         },

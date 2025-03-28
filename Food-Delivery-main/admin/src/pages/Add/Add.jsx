@@ -1,28 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Add.css";
 import { assets } from "../../assets/assets";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useContext } from "react";
 import { StoreContext } from "../../context/StoreContext";
-import { useEffect } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Add = ({url}) => {
-  const navigate=useNavigate();
-  const {token,admin} = useContext(StoreContext);
+const Add = ({ url }) => {
+  const navigate = useNavigate();
+  const { token, admin } = useContext(StoreContext);
   const [image, setImage] = useState(false);
   const [data, setData] = useState({
     name: "",
     description: "",
     price: "",
     category: "Salad",
+    bestseller: false,
   });
 
   const onChangeHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setData((data) => ({ ...data, [name]: value }));
+    const { name, value, type, checked } = event.target;
+    setData((data) => ({
+      ...data,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const onSubmitHandler = async (event) => {
@@ -32,15 +33,19 @@ const Add = ({url}) => {
     formData.append("description", data.description);
     formData.append("price", Number(data.price));
     formData.append("category", data.category);
+    formData.append("bestSeller", data.bestseller==true);
     formData.append("image", image);
 
-    const response = await axios.post(`${url}/api/food/add`, formData,{headers:{token}});
+    const response = await axios.post(`${url}/api/food/add`, formData, {
+      headers: { token },
+    });
     if (response.data.success) {
       setData({
         name: "",
         description: "",
         price: "",
         category: "Salad",
+        bestseller: false,
       });
       setImage(false);
       toast.success(response.data.message);
@@ -48,12 +53,14 @@ const Add = ({url}) => {
       toast.error(response.data.message);
     }
   };
-  useEffect(()=>{
-    if(!admin && !token){
+
+  useEffect(() => {
+    if (!admin && !token) {
       toast.error("Please Login First");
-       navigate("/");
+      navigate("/");
     }
-  },[])
+  }, []);
+
   return (
     <div className="add">
       <form onSubmit={onSubmitHandler} className="flex-col">
@@ -125,6 +132,15 @@ const Add = ({url}) => {
               required
             />
           </div>
+        </div>
+        <div className="add-bestseller flex-row">
+          <input
+            type="checkbox"
+            name="bestseller"
+            checked={data.bestseller}
+            onChange={onChangeHandler}
+          />
+          <p>Bestseller</p>
         </div>
         <button type="submit" className="add-btn">
           ADD

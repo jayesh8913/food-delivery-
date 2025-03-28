@@ -15,7 +15,7 @@ function descriptionParse(desc, wordCount = 10) {
 }
 // if called with popularDish=true then will display bestseller tag
 export default function FoodCard({ item, popularDish }) {
-  const {addToCart,cartItem,token}=useContext(StoreContext)
+  const {addToCart,cartItem,token,url}=useContext(StoreContext)
   const navigate =useNavigate();
   const addToCartHandler=()=>{
     if(!token){
@@ -36,7 +36,7 @@ export default function FoodCard({ item, popularDish }) {
     <div >
       <div className="rounded-2xl shadow-sm  w-78 hover:scale-101 hover:z-100 my-4">
         <div className="h-98 bg-white relative rounded-2xl">
-          <img src={item.image} className="h-48 w-78 rounded-t-2xl" />
+          <img src={url+"images/"+item.image} className="h-48 w-78 rounded-t-2xl" />
           <div className="absolute top-3 left-0 right-0 px-6 flex justify-between items-center">
             <div className="flex gap-1 justify-center items-center text-[#ff6b35] text-sm bg-white px-4 py-1 rounded-full shadow-lg">
               <IonIcon icon={star}></IonIcon>

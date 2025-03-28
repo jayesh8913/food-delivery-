@@ -1,15 +1,14 @@
 import React, { useContext } from "react";
-import { food_list } from "../assets/assets";
 import { StoreContext } from "../context/StoreContext";
 import { IonIcon } from "@ionic/react";
 import { caretDownOutline, caretUpOutline ,chevronDownOutline,closeCircleOutline} from "ionicons/icons";
 import { NavLink } from "react-router-dom";
 
 export default function Cart() {
-  const { cartItem, addToCart, removeFromCart, deleteCartItem } =
+  const { cartItem, addToCart, removeFromCart, deleteCartItem,foodlist ,url} =
     useContext(StoreContext);
   const totalCost = Object.keys(cartItem).reduce((acc, id) => {
-    const item = food_list.find((food) => food._id === id);
+    const item = foodlist.find((food) => food._id === id);
     return item ? acc + item.price * cartItem[id] : acc;
   }, 0);
   if(totalCost==0){
@@ -47,7 +46,7 @@ export default function Cart() {
           </tr>
         </thead>
         <tbody className=" ">
-          {food_list
+          {foodlist
             .filter(
               (item) =>
                 !(cartItem[item._id] == undefined || cartItem[item._id] == 0)
@@ -58,7 +57,7 @@ export default function Cart() {
                 <tr key={item._id} className="border-b-1 border-gray-200">
                   <td className="p-2 flex justify-center items-center border border-white">
                     <img
-                      src={item.image}
+                      src={url+"images/"+item.image}
                       alt={item.title}
                       className="w-16 h-auto"
                     />
@@ -113,11 +112,11 @@ export default function Cart() {
         </div>
         <div className="flex justify-between border-b border-gray-200 mb-3 pb-2">
             <span>GST(18%)</span>
-            <span>₹{totalCost*0.18}</span>
+            <span>₹{(totalCost*0.18).toFixed(2)}</span>
         </div>
         <div className="flex justify-between font-bold mb-3">
             <span >Total</span>
-            <span>₹{totalCost*1.18+50}</span>
+            <span>₹{(totalCost*1.18+50).toFixed(2)}</span>
         </div>
         </div>
         <div className="flex justify-center px-12 mt-6">

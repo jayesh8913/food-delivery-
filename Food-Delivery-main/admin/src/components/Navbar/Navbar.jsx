@@ -20,11 +20,11 @@ const Navbar = () => {
     <div className="navbar">
       <span className="text-3xl font-bold text-[#ff6b35]">Feastify</span>
       {token && admin ? (
-        <p className="login-conditon" onClick={logout}>Logout</p>
+        <p className="text-2xl" onClick={logout}>Logout</p>
       ) : (
-        <p className="login-conditon" onClick={()=>navigate("/")}>Login</p>
+        <p className="text-2xl" onClick={()=>navigate("/")}>Login</p>
       )}
-      <img className="profile" src={assets.profile_image} alt="" />
+      
     </div>
   );
 };
